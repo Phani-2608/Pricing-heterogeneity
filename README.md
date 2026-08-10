@@ -1,4 +1,4 @@
-# Heterogeneous Treatment Effects in Customer Pricing Strategy
+# pricing-heterogeneity
 
 Cross-fitted Double Machine Learning (DR-learner) applied to a customer pricing
 A/B test, with full causal validation.

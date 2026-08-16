@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 from pricing_heterogeneity.causal import diagnostics, estimation
 from pricing_heterogeneity.causal.validation import calibration_stats, gates_table, qini_coefficient

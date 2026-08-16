@@ -1,7 +1,6 @@
 """Integration test: full pipeline runs end-to-end at a small size and
 produces the expected result keys, artifacts, and a saved model."""
 import json
-import os
 
 from pricing_heterogeneity.config import Config
 from pricing_heterogeneity.pipeline import run_pipeline

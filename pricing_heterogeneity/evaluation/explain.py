@@ -50,7 +50,7 @@ def explain_customer(model, X_row: pd.DataFrame) -> dict:
         if arr.ndim == 3:
             arr = arr[:, :, 1] if arr.shape[-1] == 2 else arr.mean(axis=-1)
         contributions = dict(sorted(
-            zip(X_row.columns, arr[0].tolist()), key=lambda kv: abs(kv[1]), reverse=True,
+            zip(X_row.columns, arr[0].tolist(), strict=False), key=lambda kv: abs(kv[1]), reverse=True,
         ))
         return {"method": "shap", "contributions": contributions}
     except Exception as e:

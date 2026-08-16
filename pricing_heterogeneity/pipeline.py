@@ -13,15 +13,20 @@ import os
 import numpy as np
 import pandas as pd
 
-from .config import Config, DEFAULT_CONFIG
-from .causal import diagnostics, estimation
-from .causal import falsification, sensitivity
+from .causal import diagnostics, estimation, falsification, sensitivity
 from .causal.segmentation import segment_customers, subgroup_stability
 from .causal.validation import calibration_stats, gates_table, qini_coefficient
+from .checks import run_validation_suite
+from .config import DEFAULT_CONFIG, Config
 from .data.complexity import (
-    check_duplicates, check_feature_leakage, check_temporal_leakage,
-    check_treatment_imbalance, inject_and_winsorize_outliers, inject_missingness,
-    monthly_lift_range, validate_schema,
+    check_duplicates,
+    check_feature_leakage,
+    check_temporal_leakage,
+    check_treatment_imbalance,
+    inject_and_winsorize_outliers,
+    inject_missingness,
+    monthly_lift_range,
+    validate_schema,
 )
 from .data.generate import generate_dataset
 from .evaluation.explain import global_feature_importance
@@ -31,7 +36,6 @@ from .features.build import FeatureBuilder
 from .models.registry import ModelRegistry, make_metadata
 from .optimization.policy_engine import score_population
 from .optimization.strategies import compare_strategies, uplift_curve
-from .checks import run_validation_suite
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-7s | %(name)s | %(message)s")
 logger = logging.getLogger(__name__)

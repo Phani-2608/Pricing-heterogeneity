@@ -15,7 +15,6 @@ import time
 from contextlib import asynccontextmanager
 from typing import Any
 
-import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse

@@ -29,7 +29,7 @@ class FeatureBuilder(BaseEstimator, TransformerMixin):
         self.categorical_cols = categorical_cols or CATEGORICAL_COLS
         self.dummy_columns_: list[str] | None = None
 
-    def fit(self, df: pd.DataFrame, y=None) -> "FeatureBuilder":
+    def fit(self, df: pd.DataFrame, y=None) -> FeatureBuilder:
         dummies = pd.get_dummies(df[self.categorical_cols], prefix=self.categorical_cols, drop_first=True)
         self.dummy_columns_ = list(dummies.columns)
         return self

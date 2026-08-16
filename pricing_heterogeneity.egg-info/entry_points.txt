@@ -1,0 +1,2 @@
+[console_scripts]
+pricing-train = pricing_heterogeneity.pipeline:run_pipeline

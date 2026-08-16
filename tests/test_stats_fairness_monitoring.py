@@ -1,14 +1,19 @@
 import numpy as np
 import pandas as pd
-import pytest
 
 from pricing_heterogeneity.evaluation.fairness import fairness_audit, passes_four_fifths
 from pricing_heterogeneity.evaluation.stats import (
-    minimum_detectable_effect, power_table, sample_size_two_proportions,
-    segment_test_sample_size, two_proportion_z_test,
+    minimum_detectable_effect,
+    power_table,
+    sample_size_two_proportions,
+    segment_test_sample_size,
+    two_proportion_z_test,
 )
 from pricing_heterogeneity.monitoring.drift import (
-    feature_drift, prediction_drift, psi, treatment_effect_drift,
+    feature_drift,
+    prediction_drift,
+    psi,
+    treatment_effect_drift,
 )
 
 

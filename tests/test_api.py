@@ -1,6 +1,5 @@
 """API integration test: train a small model, load into the app, hit each endpoint."""
 import os
-from unittest.mock import patch
 
 import pytest
 
@@ -21,6 +20,7 @@ def client(trained_registry_dir):
     os.environ["REGISTRY_DIR"] = trained_registry_dir
     os.environ["MODEL_VERSION"] = "api-test-1.0.0"
     from fastapi.testclient import TestClient
+
     from pricing_heterogeneity.api.service import app
     with TestClient(app) as c:
         yield c

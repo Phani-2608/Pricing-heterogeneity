@@ -3,7 +3,9 @@ import pandas as pd
 
 from pricing_heterogeneity.config import Config
 from pricing_heterogeneity.optimization.policy_engine import (
-    break_even_ite, decide_for_customer, score_population,
+    break_even_ite,
+    decide_for_customer,
+    score_population,
 )
 from pricing_heterogeneity.optimization.strategies import compare_strategies, uplift_curve
 
@@ -67,10 +69,16 @@ def test_compare_strategies_yields_all_named_strategies():
     assert "best_strategy" in summary
 
 
-def test_uplift_curve_is_monotone_nondecreasing_at_end():
+def test_uplift_curve_ends_at_total_uplift():
     rng = np.random.default_rng(1)
     n = 300
     cate = rng.normal(0.05, 0.1, n)
     psi = cate + rng.normal(0, 0.05, n)
     upl = uplift_curve(cate, psi, n_points=20)
-    assert upl["cumulative_uplift"].iloc[-1] == psi.sum()
+
+    assert np.isclose(
+        upl["cumulative_uplift"].iloc[-1],
+        psi.sum(),
+        rtol=1e-12,
+        atol=1e-12,
+    )

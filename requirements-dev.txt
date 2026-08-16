@@ -1,0 +1,9 @@
+-r requirements.txt
+xgboost>=1.7
+lightgbm>=4.0
+shap>=0.44
+streamlit>=1.28
+pytest>=7.4
+pytest-cov>=4.1
+httpx>=0.24
+ruff>=0.1

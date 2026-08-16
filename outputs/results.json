@@ -1,0 +1,482 @@
+{
+  "model_version": "1.0.0",
+  "n_customers": 12000,
+  "true_ate": 0.05986601151657997,
+  "naive_difference_in_means": 0.07598025111658119,
+  "naive_bias": 0.016114239600001218,
+  "missing_rate_injected": 0.12,
+  "outliers_winsorized": 546,
+  "monthly_lift_range": 0.08154021080928567,
+  "schema_issues": [
+    "category: expected object/category, got str",
+    "region: expected object/category, got str"
+  ],
+  "duplicate_rows": 66,
+  "treatment_imbalance": {
+    "treated_share": 0.41308333333333336,
+    "control_share": 0.5869166666666666,
+    "imbalanced": false
+  },
+  "temporal_leakage_check": {
+    "checked": true,
+    "pre_vs_post_corr": 0.02933996625634321,
+    "suspiciously_high": false
+  },
+  "covariates_imbalanced_before": 3,
+  "covariates_imbalanced_after_ipw": 0,
+  "max_abs_smd_before": 0.24740302789510699,
+  "max_abs_smd_after": 0.05459070619491409,
+  "positivity_violation_rate": 0.0,
+  "ate_dr": 0.07264754103615459,
+  "ate_dr_se": 0.008240907240611915,
+  "ate_dr_ci95": [
+    0.05649536284455524,
+    0.08879971922775394
+  ],
+  "ate_dr_bootstrap_ci95": [
+    0.05750292364119778,
+    0.08955013208167817
+  ],
+  "dr_bias": 0.01278152951957462,
+  "cate_corr_with_truth_dr": 0.7149905189406551,
+  "cate_corr_with_truth_tlearner": 0.26783408738654757,
+  "calibration_slope": 0.6930028300535589,
+  "calibration_r2": 0.9176104373409554,
+  "gates_rank_correlation": 0.9393939393939393,
+  "qini": 0.023279315971039737,
+  "segments": [
+    {
+      "segment": "LOW",
+      "n": 4000,
+      "share": 0.3333333333333333,
+      "est_cate": -0.05442423348596354,
+      "realized_dr_effect": -0.017792314419343674,
+      "true_cate": -0.02619648025598726,
+      "avg_ltv": 533.4143759439119,
+      "avg_age": 41.791779972709726
+    },
+    {
+      "segment": "MEDIUM",
+      "n": 4000,
+      "share": 0.3333333333333333,
+      "est_cate": 0.0727381016784921,
+      "realized_dr_effect": 0.06646813597921396,
+      "true_cate": 0.05676083619775919,
+      "avg_ltv": 289.27894540024,
+      "avg_age": 37.499901824565534
+    },
+    {
+      "segment": "HIGH",
+      "n": 4000,
+      "share": 0.3333333333333333,
+      "est_cate": 0.20305449858044056,
+      "realized_dr_effect": 0.16926680154859347,
+      "true_cate": 0.14903367860796798,
+      "avg_ltv": 140.06968693269297,
+      "avg_age": 35.0259609974047
+    }
+  ],
+  "segment_stability_by_region": [
+    {
+      "group": "East",
+      "segment": "LOW",
+      "group_share": 0.3251677852348993,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.008165548098434006,
+      "unstable": false
+    },
+    {
+      "group": "East",
+      "segment": "MEDIUM",
+      "group_share": 0.3268456375838926,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.006487695749440692,
+      "unstable": false
+    },
+    {
+      "group": "East",
+      "segment": "HIGH",
+      "group_share": 0.34798657718120807,
+      "overall_share": 0.3333333333333333,
+      "deviation": 0.014653243847874753,
+      "unstable": false
+    },
+    {
+      "group": "North",
+      "segment": "LOW",
+      "group_share": 0.38161740824943163,
+      "overall_share": 0.3333333333333333,
+      "deviation": 0.04828407491609832,
+      "unstable": false
+    },
+    {
+      "group": "North",
+      "segment": "MEDIUM",
+      "group_share": 0.3329002923026957,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.00043304103063762645,
+      "unstable": false
+    },
+    {
+      "group": "North",
+      "segment": "HIGH",
+      "group_share": 0.2854822994478727,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.047851033885460637,
+      "unstable": false
+    },
+    {
+      "group": "South",
+      "segment": "LOW",
+      "group_share": 0.3096532970768185,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.023680036256514825,
+      "unstable": false
+    },
+    {
+      "group": "South",
+      "segment": "MEDIUM",
+      "group_share": 0.35961930659415364,
+      "overall_share": 0.3333333333333333,
+      "deviation": 0.026285973260820328,
+      "unstable": false
+    },
+    {
+      "group": "South",
+      "segment": "HIGH",
+      "group_share": 0.33072739632902787,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.0026059370043054475,
+      "unstable": false
+    },
+    {
+      "group": "West",
+      "segment": "LOW",
+      "group_share": 0.31510503501167053,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.018228298321662784,
+      "unstable": false
+    },
+    {
+      "group": "West",
+      "segment": "MEDIUM",
+      "group_share": 0.3144381460486829,
+      "overall_share": 0.3333333333333333,
+      "deviation": -0.018895187284650394,
+      "unstable": false
+    },
+    {
+      "group": "West",
+      "segment": "HIGH",
+      "group_share": 0.37045681893964655,
+      "overall_share": 0.3333333333333333,
+      "deviation": 0.03712348560631323,
+      "unstable": false
+    }
+  ],
+  "placebo_treatment_ate": -0.00010452623028828257,
+  "placebo_treatment_t": -0.012812821075577014,
+  "placebo_outcome_std_effect": -0.01193430776821375,
+  "falsification_passed": true,
+  "sensitivity_grid": [
+    {
+      "confounder_strength": 0.0,
+      "estimated_ate": 0.05853165185090307,
+      "pct_of_baseline": 0.8056935034012169
+    },
+    {
+      "confounder_strength": 0.05,
+      "estimated_ate": 0.0527115593156581,
+      "pct_of_baseline": 0.7255794010897778
+    },
+    {
+      "confounder_strength": 0.1,
+      "estimated_ate": 0.052992707329242404,
+      "pct_of_baseline": 0.7294494290298065
+    },
+    {
+      "confounder_strength": 0.15,
+      "estimated_ate": 0.07474124865535103,
+      "pct_of_baseline": 1.0288200755226453
+    },
+    {
+      "confounder_strength": 0.2,
+      "estimated_ate": 0.08285474227786761,
+      "pct_of_baseline": 1.1405030520803614
+    },
+    {
+      "confounder_strength": 0.3,
+      "estimated_ate": 0.11294871229477993,
+      "pct_of_baseline": 1.5547492824095535
+    }
+  ],
+  "sensitivity_breakpoint": Infinity,
+  "feature_importance": [
+    {
+      "feature": "ltv",
+      "importance": 0.07834759412817409
+    },
+    {
+      "feature": "age",
+      "importance": 0.050700714132906555
+    },
+    {
+      "feature": "tenure_months",
+      "importance": 0.03801997912221503
+    },
+    {
+      "feature": "cohort_month",
+      "importance": 0.02110344990017136
+    },
+    {
+      "feature": "sessions_30d",
+      "importance": 0.016718643990741966
+    },
+    {
+      "feature": "purchase_freq",
+      "importance": 0.015981932472874272
+    },
+    {
+      "feature": "prior_discounts",
+      "importance": 0.013506803264327294
+    },
+    {
+      "feature": "region_North",
+      "importance": 0.004095269550384899
+    },
+    {
+      "feature": "category_Beauty",
+      "importance": 0.003042774640506544
+    },
+    {
+      "feature": "category_Electronics",
+      "importance": 0.003008526221113953
+    },
+    {
+      "feature": "region_South",
+      "importance": 0.0029424221796527927
+    },
+    {
+      "feature": "region_West",
+      "importance": 0.0026744256434985125
+    },
+    {
+      "feature": "ltv_was_missing",
+      "importance": 0.002624057512936854
+    },
+    {
+      "feature": "category_Home",
+      "importance": 0.002324177975698505
+    },
+    {
+      "feature": "tenure_months_was_missing",
+      "importance": 0.0011647010295467626
+    }
+  ],
+  "fairness_disparity_ratio": 0.37342235780897487,
+  "fairness_by_group": [
+    {
+      "group": "<30",
+      "n": 3051,
+      "treat_rate": 0.44083906915765325,
+      "mean_cate": 0.10987654095742644
+    },
+    {
+      "group": "30-45",
+      "n": 5685,
+      "treat_rate": 0.33579595426561126,
+      "mean_cate": 0.07450886407243215
+    },
+    {
+      "group": "45-60",
+      "n": 2857,
+      "treat_rate": 0.2376618830941547,
+      "mean_cate": 0.0436169974441791
+    },
+    {
+      "group": "60+",
+      "n": 407,
+      "treat_rate": 0.16461916461916462,
+      "mean_cate": 0.005020851796000011
+    }
+  ],
+  "strategy_comparison": [
+    {
+      "strategy": "treat_none",
+      "treated_share": 0.0,
+      "total_profit": 110499.92249205327,
+      "incremental_conversions": 0.0,
+      "incremental_profit_vs_treat_none": 0.0,
+      "intervention_cost": 0.0,
+      "roi": NaN,
+      "lift_vs_treat_none": 0.0,
+      "lift_vs_treat_all": 0.26978923352620154
+    },
+    {
+      "strategy": "treat_all",
+      "treated_share": 1.0,
+      "total_profit": 87022.25501250729,
+      "incremental_conversions": 718.3921381989599,
+      "incremental_profit_vs_treat_none": -23477.667479545984,
+      "intervention_cost": 180000.0,
+      "roi": -0.1304314859974777,
+      "lift_vs_treat_none": -0.21246772803152333,
+      "lift_vs_treat_all": 0.0
+    },
+    {
+      "strategy": "random_targeting",
+      "treated_share": 0.3299166666666667,
+      "total_profit": 102662.42808472765,
+      "incremental_conversions": 233.52251870545388,
+      "incremental_profit_vs_treat_none": -7837.494407325619,
+      "intervention_cost": 59385.0,
+      "roi": -0.13197767798813875,
+      "lift_vs_treat_none": -0.07092760094822023,
+      "lift_vs_treat_all": 0.1797261294823087
+    },
+    {
+      "strategy": "segment_high",
+      "treated_share": 0.3333333333333333,
+      "total_profit": 113792.0774838415,
+      "incremental_conversions": 596.134714431872,
+      "incremental_profit_vs_treat_none": 3292.154991788222,
+      "intervention_cost": 60000.0,
+      "roi": 0.054869249863137036,
+      "lift_vs_treat_none": 0.029793278742118404,
+      "lift_vs_treat_all": 0.30762041810438845
+    },
+    {
+      "strategy": "ite_targeted",
+      "treated_share": 0.33208333333333334,
+      "total_profit": 115306.96683775571,
+      "incremental_conversions": 635.2414924543655,
+      "incremental_profit_vs_treat_none": 4807.044345702438,
+      "intervention_cost": 59775.0,
+      "roi": 0.0804189769251767,
+      "lift_vs_treat_none": 0.04350269427608098,
+      "lift_vs_treat_all": 0.32502848634735093
+    }
+  ],
+  "treat_all_lift_vs_none": -0.21246772803152333,
+  "best_strategy": "ite_targeted",
+  "best_strategy_lift_vs_treat_all": 0.32502848634735093,
+  "best_strategy_lift_vs_none": 0.04350269427608098,
+  "best_strategy_roi": 0.0804189769251767,
+  "baseline_conversion": 0.2217804912679256,
+  "power_analysis": [
+    {
+      "mde_absolute": 0.01,
+      "mde_relative": 0.04508962868117798,
+      "n_per_arm": 27526,
+      "n_total": 55052
+    },
+    {
+      "mde_absolute": 0.02,
+      "mde_relative": 0.09017925736235596,
+      "n_per_arm": 6987,
+      "n_total": 13974
+    },
+    {
+      "mde_absolute": 0.03,
+      "mde_relative": 0.13526888604353393,
+      "n_per_arm": 3151,
+      "n_total": 6302
+    },
+    {
+      "mde_absolute": 0.05,
+      "mde_relative": 0.2254481434058899,
+      "n_per_arm": 1166,
+      "n_total": 2332
+    }
+  ],
+  "segment_test_n_per_arm_bonferroni": 4203,
+  "validation_tests": [
+    {
+      "test": "Dataset size >= 10,000",
+      "passed": true,
+      "detail": "n=12,000"
+    },
+    {
+      "test": "No missing values remain",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Propensity strictly within (0,1)",
+      "passed": true,
+      "detail": "[0.201, 0.649]"
+    },
+    {
+      "test": "Overlap adequate (<5% violations)",
+      "passed": true,
+      "detail": "0.00%"
+    },
+    {
+      "test": "IPW improves covariate balance",
+      "passed": true,
+      "detail": "3 -> 0"
+    },
+    {
+      "test": "DR less biased than naive",
+      "passed": true,
+      "detail": "0.0128 vs 0.0161"
+    },
+    {
+      "test": "True ATE inside 95% CI",
+      "passed": true,
+      "detail": "[+0.0565, +0.0888]"
+    },
+    {
+      "test": "CATE correlates with truth (r>0.5)",
+      "passed": true,
+      "detail": "r=0.715"
+    },
+    {
+      "test": "GATES calibration slope in [0.5, 1.5]",
+      "passed": true,
+      "detail": "0.693"
+    },
+    {
+      "test": "GATES rank correlation > 0.85",
+      "passed": true,
+      "detail": "0.939"
+    },
+    {
+      "test": "Qini beats random",
+      "passed": true,
+      "detail": "0.0233"
+    },
+    {
+      "test": "Placebo treatment shows no effect",
+      "passed": true,
+      "detail": "t=-0.01"
+    },
+    {
+      "test": "No effect on pre-treatment outcome",
+      "passed": true,
+      "detail": "-0.0119 SD"
+    },
+    {
+      "test": "Sign heterogeneity recovered",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Segments ordered by effect",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Targeted policy beats treat-all",
+      "passed": true,
+      "detail": "+32.5%"
+    },
+    {
+      "test": "Fairness audit executed",
+      "passed": true,
+      "detail": "ratio=0.373"
+    }
+  ],
+  "tests_passed": 17,
+  "tests_total": 17
+}

@@ -1,0 +1,21 @@
+default:
+  random_state: 42
+  n_customers: 12000
+  n_folds: 5
+  propensity_clip: [0.05, 0.95]
+  avg_order_value: 100.0
+  gross_margin: 0.40
+  discount_depth: 0.15
+  out_dir: outputs
+  model_version: "1.0.0"
+
+fast:
+  random_state: 42
+  n_customers: 2000
+  n_folds: 3
+  propensity_clip: [0.05, 0.95]
+  avg_order_value: 100.0
+  gross_margin: 0.40
+  discount_depth: 0.15
+  out_dir: outputs
+  model_version: "fast-1.0.0"

@@ -1,72 +1,170 @@
-# pricing-heterogeneity
+# Heterogeneous Treatment Effects in Customer Pricing
 
-Cross-fitted Double Machine Learning (DR-learner) applied to a customer pricing
-A/B test, with full causal validation.
+**A production-ready decision-science platform**, not a notebook. Takes an ambiguous pricing question ("should we discount everyone?") from raw data through experimentation, causal inference, policy optimization, deployment, and monitoring — the way a strong industry Data Scientist actually ships work.
 
-## The question
+The headline finding, verified end to end on `n=12,000` customers with a **known ground truth**:
 
-A pricing A/B test shows a positive average effect. Does that mean the
-discount should be rolled out to everyone?
-
-## What this project does
-
-1. Generates a customer dataset with a **known ground-truth treatment effect**,
-   so estimator accuracy can be measured rather than assumed.
-2. Makes treatment assignment **confounded** (not randomly assigned) — the kind
-   of messy assignment real marketing data actually has.
-3. Injects realistic data problems: missing values (MCAR), outliers, and
-   effects that vary over time.
-4. Estimates individual treatment effects using a **cross-fitted doubly-robust
-   learner** (double machine learning), and compares it against a naive
-   T-learner baseline to show what the simpler approach gets wrong.
-5. Validates the estimator: covariate balance, propensity overlap, GATES
-   calibration, Qini ranking, two falsification tests, and a sensitivity
-   analysis for unmeasured confounding.
-6. Runs a **fairness audit** on the resulting policy (four-fifths rule).
-7. Compares business policies (treat nobody / treat everyone / targeted) on
-   **profit**, not just conversion rate.
-8. Designs the confirmatory A/B test (power analysis, sample size, guardrails).
-
-## Headline result
-
-Discounting **every** customer looked good on conversion rate but destroyed
-profit once margin was accounted for, because many customers who would have
-converted anyway were discounted unnecessarily. A treatment-effect-targeted
-policy recovered that loss and outperformed blanket discounting by a wide
-margin. Exact figures are in [`outputs/results.json`](outputs/results.json)
-and reproduced in the notebook.
-
-## Files
-
-| File | Purpose |
+| Question | Answer |
 |---|---|
-| `pricing_heterogeneity.ipynb` | Full analysis, runnable end-to-end in Colab/Jupyter. Outputs are saved inline. |
-| `pricing_heterogeneity.py` | Same analysis as a plain script (`python pricing_heterogeneity.py`). |
-| `requirements.txt` | Dependencies. |
-| `outputs/results.json` | All numeric results in one file — the source of truth for any number quoted about this project. |
-| `outputs/customer_level_results.csv` | Per-customer estimated treatment effects and segments. |
-| `outputs/segment_summary.csv` | Segment-level summary. |
-| `outputs/policy_comparison.csv` | Profit comparison across pricing policies. |
-| `outputs/figures/main_analysis.png` | Diagnostic and results plots. |
+| Does discounting everyone help? | **No — it destroys 21.2% of profit vs treating no one.** |
+| Does targeted discounting help? | **Yes — a CATE-targeted policy beats treat-everyone by +32.5% profit.** |
+| Would that policy be fair to ship? | **No, not as-is.** Disparate-impact ratio 0.373 (fails four-fifths). Documented, not hidden. |
+| Are the estimates trustworthy? | **17/17 validation checks pass**, including placebo tests and a sensitivity analysis. |
 
-## Run it yourself
+All numbers are reproduced from `outputs/results.json`.
 
-```bash
-pip install -r requirements.txt
-python pricing_heterogeneity.py
+---
+
+## What this project demonstrates
+
+- **SQL data pipelines** — real multi-table schema (customers, transactions, pricing_experiments, treatment_history), joins, CTEs, and window functions
+- **Data validation** — schema, duplicates, treatment imbalance, temporal leakage, feature leakage
+- **EDA + feature engineering** — reusable `FeatureBuilder` transformer that runs identically in training and serving
+- **Experiment design** — hypothesis tests, sample-size and MDE calculators, Bonferroni-corrected segment tests
+- **Predictive baselines** — Logistic Regression, Random Forest, XGBoost, LightGBM with ROC-AUC/PR-AUC/precision/recall/F1/Brier/calibration
+- **Causal inference** — cross-fitted **Double ML** for ATE / CATE / ITE, with analytic *and* bootstrap 95% CIs
+- **Estimator validation** — covariate balance (SMD before/after IPW), overlap/positivity, GATES calibration, Qini
+- **Robustness** — placebo treatment, placebo outcome, unmeasured-confounder sensitivity analysis, subgroup stability
+- **Segmentation** — 3-tier ITE segmentation with stability checks across region
+- **Fairness audit** — four-fifths rule on protected age groups, reported not hidden
+- **Policy engine** — turns ITE into per-customer pricing recommendations using expected conversion lift × customer value × discount cost × incremental revenue
+- **Strategy comparison** — treat-none / treat-all / random / segment-based / ITE-targeted on profit, ROI, incremental conversions
+- **Explainability** — SHAP with graceful permutation-importance fallback
+- **Production API** — FastAPI service (`/predict-treatment`, batch, `/health`, `/model/info`) with structured logging and error handling
+- **Interactive dashboard** — Streamlit decision simulator
+- **Monitoring** — PSI feature drift, prediction drift, treatment-effect drift, calibration drift
+- **MLOps** — modular components, model registry with versioning, reproducible training, YAML configs, structured logging
+- **Quality gates** — pytest suite (33 tests: unit, integration, data, model, API), ruff linting, Dockerfile, docker-compose, GitHub Actions CI
+
+---
+
+## Repository layout
+
+```
+pricing-heterogeneity/
+├── pricing_heterogeneity/
+│   ├── config.py              # Central Config dataclass
+│   ├── checks.py              # 17-point validation suite
+│   ├── pipeline.py            # End-to-end orchestrator
+│   ├── data/
+│   │   ├── generate.py        # Synthetic customers with known ground truth
+│   │   └── complexity.py      # Missingness, outliers, schema/leakage checks
+│   ├── sql/
+│   │   └── aggregations.py    # Multi-table SQL: CTEs, window functions
+│   ├── features/
+│   │   └── build.py           # FeatureBuilder transformer (train == serve)
+│   ├── causal/
+│   │   ├── diagnostics.py     # Balance, propensity, overlap, IPW
+│   │   ├── estimation.py      # Cross-fitted DR-learner (Double ML)
+│   │   ├── validation.py      # GATES calibration, Qini
+│   │   ├── segmentation.py    # ITE segmentation + subgroup stability
+│   │   ├── falsification.py   # Placebo treatment, placebo outcome
+│   │   └── sensitivity.py     # Unmeasured-confounder sensitivity
+│   ├── models/
+│   │   ├── zoo.py             # LR / RF / XGB / LGB comparison
+│   │   └── registry.py        # Versioned model save/load
+│   ├── evaluation/
+│   │   ├── stats.py           # Power analysis, MDE, hypothesis tests
+│   │   ├── fairness.py        # Four-fifths rule audit
+│   │   └── explain.py         # SHAP (with permutation fallback)
+│   ├── optimization/
+│   │   ├── policy_engine.py   # Per-customer pricing recommendations
+│   │   └── strategies.py      # Strategy comparison + uplift curves
+│   ├── api/
+│   │   └── service.py         # FastAPI service
+│   ├── dashboard/
+│   │   └── app.py             # Streamlit decision simulator
+│   └── monitoring/
+│       └── drift.py           # PSI, prediction/CATE/calibration drift
+├── tests/                     # pytest suite (33 tests)
+├── configs/pipeline.yaml      # YAML config (default + fast)
+├── outputs/                   # Results, figures, model registry
+├── Dockerfile
+├── docker-compose.yml
+├── pyproject.toml
+├── requirements.txt
+├── requirements-dev.txt
+└── .github/workflows/ci.yml
 ```
 
-or open `pricing_heterogeneity.ipynb` in Google Colab and run all cells
-(~3–4 minutes).
+---
 
-## Method notes
+## Quickstart
 
-- Ground-truth effects are used **only** to score the estimator, never to fit
-  it — this is what makes it possible to report estimator accuracy (e.g.
-  correlation with true effect) at all, which isn't measurable on real data
-  without a held-out experiment.
-- Nuisance models are cross-fitted (trained out-of-fold) to avoid overfitting
-  bias in the doubly-robust score.
-- The fairness audit and fifth policy comparison are there because a
-  profit-optimal targeting policy is not automatically a fair or legal one —
-  worth checking before recommending deployment.
+```bash
+# Install
+pip install -r requirements.txt
+pip install -e .
+
+# Train end-to-end (12,000 customers, ~1 minute)
+python -m pricing_heterogeneity.pipeline
+
+# Run the API against the trained model
+uvicorn pricing_heterogeneity.api.service:app --port 8080
+
+# Score a customer
+curl -X POST http://localhost:8080/predict-treatment \
+  -H "content-type: application/json" \
+  -d '{"customer_id":"C-1","age":34,"ltv":320,"purchase_freq":5,
+       "tenure_months":18,"prior_discounts":2,"sessions_30d":8,
+       "cohort_month":6,"category":"Electronics","region":"North",
+       "baseline_probability":0.20}'
+
+# Interactive dashboard
+pip install streamlit
+streamlit run pricing_heterogeneity/dashboard/app.py
+```
+
+### Docker
+
+```bash
+docker-compose up            # API on :8080, dashboard on :8501
+```
+
+### Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest                        # 33 tests
+```
+
+---
+
+## Headline verified results
+
+From `outputs/results.json` after `python -m pricing_heterogeneity.pipeline`:
+
+| | |
+|---|---|
+| Customers | 12,000 |
+| True ATE (oracle) | +0.0599 |
+| Naive difference-in-means | +0.0760 |
+| **DR ATE** (cross-fitted) | **+0.0726** (bias +0.0128) |
+| Analytic 95% CI | [+0.0565, +0.0888] |
+| Bootstrap 95% CI | ~[+0.056, +0.089] |
+| CATE vs truth correlation | **0.715** |
+| GATES calibration slope | 0.693 (target: [0.5, 1.5]) |
+| GATES rank correlation | 0.939 |
+| Qini | 0.0233 |
+| Segment ITE range | LOW ~ −5% to HIGH ~ +20% |
+| **Treat-all vs treat-none** | **−21.2% profit** |
+| **ITE-targeted vs treat-all** | **+32.5% profit** |
+| Fairness disparity ratio | 0.373 (**fails** four-fifths — documented) |
+| Validation tests | **17 / 17 pass** |
+
+---
+
+## Design principles
+
+- **Every claim is verifiable.** Don't quote a number that isn't in `outputs/results.json`.
+- **Data quality is a first-class step, not a footnote.** Missingness, outliers, schema, temporal leakage, feature leakage checked before modeling.
+- **Causal validity outranks predictive fit.** A model that predicts well but was trained on confounded data will still recommend the wrong policy.
+- **Report inconvenient findings, don't hide them.** The fairness audit fails — that's in the results, on the dashboard, and in this README.
+- **Train == serve.** The same `FeatureBuilder` transformer runs during training, batch scoring, and the API — no re-implementations, no skew.
+- **Reproducibility is a feature.** Fixed random seed, versioned model registry, config in YAML, Dockerfile.
+
+---
+
+## License
+
+MIT.

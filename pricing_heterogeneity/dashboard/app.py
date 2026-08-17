@@ -10,9 +10,9 @@ import os
 import pandas as pd
 import streamlit as st
 
-from ..config import DEFAULT_CONFIG
-from ..models.registry import ModelRegistry
-from ..optimization.policy_engine import decide_for_customer
+from pricing_heterogeneity.config import DEFAULT_CONFIG
+from pricing_heterogeneity.models.registry import ModelRegistry
+from pricing_heterogeneity.optimization.policy_engine import decide_for_customer
 
 st.set_page_config(page_title="Pricing Heterogeneity", layout="wide")
 
